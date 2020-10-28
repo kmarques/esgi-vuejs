@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ nbCount }}
+    {{ selectors.nbCount }}
     <a href="#" @click.ctrl="alertByMethod">By Method</a>
     <a href="#" @click.prevent="alertByComputed">By Computed</a>
     <ul class="board">
@@ -12,90 +12,57 @@
         {{ item.completed ? "true" : "false" }}
       </li>
     </ul>
-    <input type="text" :value="itemName" @input="setItemName" />
-    <input type="number" :value="itemName" @input="setItemName" />
-    <input type="checkbox" v-model="completed" />
-
-    <select v-model="category">
-      <option v-for="item in categories" :key="item">
-        {{ item }}
-      </option>
-    </select>
-
-    <select v-model="article">
-      <option v-for="item in articles" :key="item">
-        {{ item }}
-      </option>
-    </select>
-
-    <button @click="addItem">Add item</button>
-    <button @click="empty">Empty</button>
+    <Modal :open="modalOpen">
+      <template v-slot:title="{ color }">Add Item {{ color }}</template>
+      <Form @add-todo="addItem" />
+      <h1>test</h1>
+    </Modal>
+    <button @click="toggleModal">Open modal</button>
   </div>
 </template>
 
 <script>
-const options = {
-  cuisine: ["cuillères", "fouchettes", "couteaux"],
-  salon: ["canapé", "TV"],
-};
+import Form from "./Form";
+import Modal from "./Modal";
 
 export default {
   name: "Todos",
+  components: {
+    Form,
+    Modal,
+  },
   props: {
     msg: String,
     theme: String,
     toggleTheme: Function,
   },
   data: () => ({
-    todos: [],
-    itemName: "test",
-    completed: false,
-    category: Object.keys(options)[0],
-    article: "",
+    modalOpen: false,
   }),
   methods: {
-    empty: function () {
-      this.$data.itemName = "";
-      this.$data.completed = false;
-    },
-    setItemName: function (event) {
-      this.$data.itemName = event.target.value;
-    },
-    addItem: function () {
-      this.$data.todos.push({
-        name: this.$data.itemName,
-        completed: this.$data.completed,
-        article: this.$data.article,
-      });
-      this.empty();
-    },
     nbCountMethod: function () {
       console.log("method value");
-      return this.$data.todos.length;
+      return this.todos.length;
     },
     alertByMethod: function () {
       alert(this.nbCountMethod());
     },
     alertByComputed: function () {
-      alert(this.nbCount);
+      alert(this.selectors.nbCount);
+    },
+
+    toggleModal: function () {
+      this.$data.modalOpen = !this.$data.modalOpen;
+    },
+    addItem: function (data) {
+      this.actions.addItem(data);
     },
   },
   created: () => console.log("created"),
   mounted: () => console.log("mounted"),
   updated: () => console.log("updated"),
   destroyed: () => console.error("destroyed"),
-  computed: {
-    nbCount: function () {
-      console.log("compute value");
-      return this.$data.todos.length;
-    },
-    categories: function () {
-      return Object.keys(options);
-    },
-    articles: function () {
-      return options[this.$data.category];
-    },
-  },
+  inject: ["todos", "actions", "selectors"],
   filters: {
     ucfirst: function ucfirst(str) {
       if (typeof str !== "string" || str.length === 0) return "";

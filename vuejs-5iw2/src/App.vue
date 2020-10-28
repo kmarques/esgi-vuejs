@@ -2,17 +2,21 @@
   <div id="app">
     <a href="#" @click="toggleShow">Toggle Show</a>
     <a href="#" @click="toggleIf">Toggle If</a>
-    <TodoBoard v-if="visible" v-show="appear" />
+    <todo-provider>
+      <TodoBoard v-if="visible" v-show="appear" />
+    </todo-provider>
   </div>
 </template>
 
 <script>
 import TodoBoard from "./components/TodoBoard.vue";
+import TodoProvider from "./components/TodoProvider.vue";
 
 export default {
   name: "App",
   components: {
     TodoBoard,
+    TodoProvider,
   },
   data: () => ({ appear: true, visible: true }),
   methods: {
