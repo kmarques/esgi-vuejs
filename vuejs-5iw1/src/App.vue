@@ -5,23 +5,27 @@
     <!--HelloWorld msg="Welcome to Your Vue.js App" v-bind:theme="theme" :toggleTheme="toggleTheme" /-->
     <a href @click.prevent="toggleIf">"Toggle If</a>
     <a href @click.prevent="toggleShow">"Toggle Show</a>
-    <List
-      v-if="visible"
-      v-show="appear"
-      :listStyle="{ backgroundColor: 'red' }"
-    />
+    <ListProvider>
+      <List
+        v-if="visible"
+        v-show="appear"
+        :listStyle="{ backgroundColor: 'red' }"
+      />
+    </ListProvider>
   </div>
 </template>
 
 <script>
 //import HelloWorld from "./components/HelloWorld.vue";
 import List from "./components/List.vue";
+import ListProvider from "./components/ListProvider.vue";
 
 export default {
   name: "App",
   components: {
     //HelloWorld,
     List,
+    ListProvider,
   },
   data: () => ({
     theme: "dark",
@@ -29,13 +33,13 @@ export default {
     appear: true,
   }),
   methods: {
-    toggleTheme: function () {
+    toggleTheme() {
       this.$data.theme = this.$data.theme == "dark" ? "light" : "dark";
     },
-    toggleIf: function () {
+    toggleIf() {
       this.$data.visible = !this.$data.visible;
     },
-    toggleShow: function () {
+    toggleShow() {
       this.$data.appear = !this.$data.appear;
     },
   },

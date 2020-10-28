@@ -12,7 +12,7 @@
         {{ key }}
       </option>
     </select>
-    <button @click="addItem">add item</button>
+    <button @click="addItemM">add item</button>
   </div>
 </template>
 
@@ -29,6 +29,7 @@ export default {
     category: Object.keys(options)[0],
     article: options[Object.keys(options)[0]][0],
   }),
+  inject: ["addItem"],
   methods: {
     setCategory: function (event) {
       this.$data.category = event.target.value;
@@ -37,8 +38,8 @@ export default {
     setItemName: function (event) {
       this.$data.itemName = event.target.value;
     },
-    addItem: function () {
-      this.$emit("add-item", {
+    addItemM: function () {
+      this.addItem({
         id: Date.now(),
         name: this.$data.itemName,
         completed: this.$data.completed,

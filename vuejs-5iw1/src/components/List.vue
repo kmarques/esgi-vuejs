@@ -1,13 +1,12 @@
 <template>
   <div>
     <h1>List</h1>
-    <button @click="alertCountComputed">computed</button>
     <button @click="alertCountMethod">method</button>
     <Modal :open="modal">
       <template v-slot:title="{ color }">Test {{ color }}</template>
-      <Form @add-item="addItem" />
+      <Form />
     </Modal>
-    {{ countList }} {{ countListMethod() }}
+    {{ countListMethod() }}
     <ul v-bind:style="listStyle">
       <ListItem v-for="item in list" :key="item.id">
         <template v-slot:title>{{ item.name }}</template>
@@ -37,40 +36,25 @@ export default {
     listStyle: Object,
   },
   data: () => ({
-    list: [{ id: 1, name: "Kakarl" }],
     modal: false,
   }),
   methods: {
-    addItem: function (item) {
-      this.$data.list.push(item);
-    },
-    countListMethod: function () {
+    countListMethod() {
       console.error("count method");
-      return this.$data.list.length;
+      return this.list.length;
     },
-    alertCountComputed: function () {
-      alert(this.countList);
-    },
-    alertCountMethod: function () {
+    alertCountMethod() {
       alert(this.countListMethod());
     },
-    toggleModal: function () {
+    toggleModal() {
       this.modal = !this.modal;
-    },
-    removeItem: function (_item) {
-      this.$data.list = this.$data.list.filter((item) => item.id !== _item.id);
     },
   },
   created: () => console.log("created"),
   mounted: () => console.log("mounted"),
   updated: () => console.log("updated"),
   destroyed: () => console.error("destroyed"),
-  computed: {
-    countList: function () {
-      console.error("count computed");
-      return this.$data.list.length;
-    },
-  },
+  inject: ["list", "removeItem"],
   filters: {
     ucfirst: function ucfirst(str) {
       if (typeof str !== "string" || str.length === 0) return "";
