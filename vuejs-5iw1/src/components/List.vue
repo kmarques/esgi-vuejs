@@ -3,28 +3,34 @@
     <h1>List</h1>
     <button @click="alertCountComputed">computed</button>
     <button @click="alertCountMethod">method</button>
-    <Modal :open="true">
-      <template v-slot:title>Test</template>
+    <Modal :open="modal">
+      <template v-slot:title="{ color }">Test {{ color }}</template>
       <Form @add-item="addItem" />
     </Modal>
     {{ countList }} {{ countListMethod() }}
     <ul v-bind:style="listStyle">
-      <li
-        v-for="item in list"
-        :key="item.id"
-        v-html="$options.filters.ucfirst($options.filters.rInRed(item.name))"
-      ></li>
+      <ListItem v-for="item in list" :key="item.id">
+        <template v-slot:title>{{ item.name }}</template>
+        <template v-slot:tag>{{ item.category }} {{ item.article }}</template>
+        <template v-slot:action>
+          <button @click="removeItem(item)">Remove Item</button>
+        </template>
+      </ListItem>
     </ul>
+    <button @click="toggleModal">Add Item</button>
   </div>
 </template>
 
 <script>
 import Form from "./Form";
 import Modal from "./Modal";
+import ListItem from "./ListItem";
+
 export default {
   name: "List",
   components: {
     Form,
+    ListItem,
     Modal,
   },
   props: {
@@ -32,6 +38,7 @@ export default {
   },
   data: () => ({
     list: [{ id: 1, name: "Kakarl" }],
+    modal: false,
   }),
   methods: {
     addItem: function (item) {
@@ -46,6 +53,12 @@ export default {
     },
     alertCountMethod: function () {
       alert(this.countListMethod());
+    },
+    toggleModal: function () {
+      this.modal = !this.modal;
+    },
+    removeItem: function (_item) {
+      this.$data.list = this.$data.list.filter((item) => item.id !== _item.id);
     },
   },
   created: () => console.log("created"),

@@ -1,6 +1,6 @@
 <template>
   <div v-if="open" class="modal">
-    <h1 class="title"><slot name="title">Title</slot></h1>
+    <h1 class="title"><slot name="title" :color="color">Title</slot></h1>
     <div class="content">
       <slot></slot>
     </div>
@@ -17,6 +17,9 @@ export default {
   props: {
     open: Boolean,
   },
+  data: () => ({
+    color: "red",
+  }),
 };
 </script>
 

@@ -43,6 +43,7 @@ export default {
         name: this.$data.itemName,
         completed: this.$data.completed,
         article: this.$data.article,
+        category: this.$data.category,
       });
       this.$data.itemName = "";
       this.$data.completed = false;
