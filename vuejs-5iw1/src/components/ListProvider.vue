@@ -23,6 +23,9 @@ export default {
       return this.$data.list.length;
     },
   },
+  mounted: function () {
+    console.log(this.$attrs);
+  },
   provide: function () {
     return {
       list: this.$data.list,

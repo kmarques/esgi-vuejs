@@ -3,45 +3,43 @@
     <img alt="Vue logo" src="./assets/logo.png" />
     <h1 @click="toggleTheme">{{ theme }}</h1>
     <!--HelloWorld msg="Welcome to Your Vue.js App" v-bind:theme="theme" :toggleTheme="toggleTheme" /-->
-    <a href @click.prevent="toggleIf">"Toggle If</a>
-    <a href @click.prevent="toggleShow">"Toggle Show</a>
-    <ListProvider>
-      <List
-        v-if="visible"
-        v-show="appear"
-        :listStyle="{ backgroundColor: 'red' }"
-      />
-    </ListProvider>
+    <nav>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/todos">Todo board</router-link>
+    </nav>
+    <header>
+      <router-view name="header" />
+    </header>
+    <main>
+      <router-view />
+    </main>
+    <footer>
+      <router-view name="footer" />
+    </footer>
+    <div>{{ msg }}</div>
   </div>
 </template>
 
 <script>
 //import HelloWorld from "./components/HelloWorld.vue";
-import List from "./components/List.vue";
-import ListProvider from "./components/ListProvider.vue";
+import notificationCenter from "./lib/NotifCenter";
 
 export default {
   name: "App",
-  components: {
-    //HelloWorld,
-    List,
-    ListProvider,
-  },
   data: () => ({
     theme: "dark",
-    visible: true,
-    appear: true,
+    msg: "",
   }),
   methods: {
     toggleTheme() {
       this.$data.theme = this.$data.theme == "dark" ? "light" : "dark";
     },
-    toggleIf() {
-      this.$data.visible = !this.$data.visible;
-    },
-    toggleShow() {
-      this.$data.appear = !this.$data.appear;
-    },
+  },
+  created() {
+    notificationCenter.onMessage((msg) => {
+      this.$data.msg = msg.msg;
+      setTimeout(() => (this.$data.msg = ""), 5000);
+    });
   },
 };
 </script>

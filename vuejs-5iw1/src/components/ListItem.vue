@@ -1,6 +1,6 @@
 <template>
   <div>
-    <slot name="title"></slot>
+    <div><slot name="title"></slot></div>
     <slot name="tag"></slot>
     <slot name="action"></slot>
   </div>
