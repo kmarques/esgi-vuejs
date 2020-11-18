@@ -40,6 +40,7 @@ const options = {
   cuisine: ["cuillères", "fouchettes", "couteaux"],
   salon: ["canapé", "TV"],
 };
+import * as Yup from "yup";
 
 export default {
   name: "Form",

@@ -1,21 +1,25 @@
 <template>
   <div id="app">
-    <a href="#" @click="toggleShow">Toggle Show</a>
-    <a href="#" @click="toggleIf">Toggle If</a>
+    <div id="nav">
+      <router-link :to="{ name: 'Home' }">Home</router-link> |
+      <router-link to="/todos/new">Todos board</router-link>
+      <router-link to="/todos/test">Todos board</router-link>
+      <router-link to="/tototest">PAge 404</router-link>
+    </div>
     <todo-provider>
-      <TodoBoard v-if="visible" v-show="appear" />
+      <router-view name="header" />
+      <router-view />
+      <router-view name="footer" />
     </todo-provider>
   </div>
 </template>
 
 <script>
-import TodoBoard from "./components/TodoBoard.vue";
 import TodoProvider from "./components/TodoProvider.vue";
 
 export default {
   name: "App",
   components: {
-    TodoBoard,
     TodoProvider,
   },
   data: () => ({ appear: true, visible: true }),
@@ -40,6 +44,18 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
