@@ -2,7 +2,7 @@
   <div>
     <h1>List</h1>
     <button @click="alertCountMethod">method</button>
-    {{ countListMethod() }}
+    {{ countList }}
     <ul v-bind:style="listStyle">
       <ListItem v-for="item in list" :key="item.id">
         <template v-slot:title>{{ item.name }}</template>
@@ -17,6 +17,7 @@
 
 <script>
 import ListItem from "./ListItem";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "List",
@@ -34,12 +35,12 @@ export default {
     alertCountMethod() {
       alert(this.countListMethod());
     },
+    ...mapMutations(["removeItem"]),
   },
   created: () => console.log("created"),
   mounted: () => console.log("mounted"),
   updated: () => console.log("updated"),
   destroyed: () => console.error("destroyed"),
-  inject: ["list", "removeItem"],
   filters: {
     ucfirst: function ucfirst(str) {
       if (typeof str !== "string" || str.length === 0) return "";
@@ -48,6 +49,12 @@ export default {
     rInRed: (word) => {
       return word.replaceAll("r", '<span style="color: red;">r</span>');
     },
+  },
+  computed: {
+    list: function () {
+      return this.$store.state.list;
+    },
+    ...mapGetters(["countList"]),
   },
 };
 </script>

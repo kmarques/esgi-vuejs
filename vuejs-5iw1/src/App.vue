@@ -40,6 +40,7 @@ export default {
       this.$data.msg = msg.msg;
       setTimeout(() => (this.$data.msg = ""), 5000);
     });
+    this.$store.dispatch("fetchItems");
   },
 };
 </script>

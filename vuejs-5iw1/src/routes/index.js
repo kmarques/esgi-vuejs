@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
   const auth = {
     isLoggued: false,
   };
-  if (to.matched.some((route) => route.meta.private) && !auth.isLoggued) {
+  if (to.matched.some((route) => route.meta.private) && auth.isLoggued) {
     next({
       path: "/",
       params: {

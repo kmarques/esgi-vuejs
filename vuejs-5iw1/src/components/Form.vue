@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 const options = {
   cuisine: ["fourchettes", "couteaux"],
   salon: ["tv", "canapé"],
@@ -29,7 +30,6 @@ export default {
     category: Object.keys(options)[0],
     article: options[Object.keys(options)[0]][0],
   }),
-  inject: ["addItem"],
   methods: {
     setCategory: function (event) {
       this.$data.category = event.target.value;
@@ -39,16 +39,25 @@ export default {
       this.$data.itemName = event.target.value;
     },
     addItemM: function () {
-      this.addItem({
+      const item = {
         id: Date.now(),
         name: this.$data.itemName,
         completed: this.$data.completed,
         article: this.$data.article,
         category: this.$data.category,
+      };
+      // Appeler une action manuellement
+      //     this.$store.dispatch("addItem", item);
+      // Appeler une action qui a été mappée
+      this.addItem(item).then(() => {
+        this.$data.itemName = "";
+        this.$data.completed = false;
+        this.$router.push("/todos/test");
+        //this.$router.go(-1);
       });
-      this.$data.itemName = "";
-      this.$data.completed = false;
     },
+    ...mapActions(["addItem"]),
+    // => {addItem: (payload) => this.$store.dispatch("addItem", payload)}
   },
   computed: {
     myLovelyKeys: function () {

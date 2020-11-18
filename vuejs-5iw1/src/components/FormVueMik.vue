@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import * as Yup from "yup";
 const options = {
   cuisine: ["cuillères", "fouchettes", "couteaux"],
   salon: ["canapé", "TV"],
