@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import Form from "./Form";
 import Modal from "./Modal";
 
@@ -27,12 +28,12 @@ export default {
       this.$data.modalOpen = !this.$data.modalOpen;
     },
     addItem: function (data) {
-      this.actions.addItem(data);
-      this.$router.push("/todos/test");
+      this.$store
+        .dispatch("addItem", data)
+        .then(() => this.$router.push("/todos/test"));
       //this.$router.push({name: "TodoBoardList", params: {id: "test"}});
       //this.$router.go(-1);
     },
   },
-  inject: ["actions"],
 };
 </script>

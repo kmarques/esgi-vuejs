@@ -27,7 +27,7 @@ const routes = [
   {
     path: "/todos",
     name: "TodoBoard",
-    meta: { private: true },
+    meta: { private: false },
     components: {
       default: TodoBoard,
       header: TodoBoardHeader,
@@ -54,7 +54,6 @@ const routes = [
       },
     },
   },
-  
 
   {
     path: "*",
