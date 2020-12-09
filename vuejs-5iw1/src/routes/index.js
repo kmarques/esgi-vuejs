@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import todoRouter from "./todoRouter";
 import Hello from "../components/views/Hello.vue";
+import Apollo from "../components/views/Apollo.vue";
 import Page404 from "../components/views/Page404.vue";
 import notificationCenter from "../lib/NotifCenter";
 Vue.use(VueRouter);
@@ -10,6 +11,10 @@ const routes = [
   {
     path: "/",
     component: Hello,
+  },
+  {
+    path: "/apollo",
+    component: Apollo
   },
   ...todoRouter,
   {
